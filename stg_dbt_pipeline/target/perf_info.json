@@ -1,0 +1,42 @@
+{
+    "path_count": 226,
+    "parsed_path_count": 0,
+    "static_analysis_path_count": 0,
+    "static_analysis_parsed_path_count": 0,
+    "is_partial_parse_enabled": true,
+    "is_static_analysis_enabled": true,
+    "read_files_elapsed": 0.0316394190012943,
+    "load_all_elapsed": 0.07811116299853893,
+    "projects": [
+        {
+            "project_name": "stridetechgo",
+            "elapsed": 0.0,
+            "parsers": [],
+            "parsed_path_count": 0
+        },
+        {
+            "project_name": "dbt_databricks",
+            "elapsed": 0.0,
+            "parsers": [],
+            "parsed_path_count": 0
+        },
+        {
+            "project_name": "dbt_spark",
+            "elapsed": 0.0,
+            "parsers": [],
+            "parsed_path_count": 0
+        },
+        {
+            "project_name": "dbt",
+            "elapsed": 0.0,
+            "parsers": [],
+            "parsed_path_count": 0
+        },
+        {
+            "project_name": "dbt_utils",
+            "elapsed": 0.0,
+            "parsers": [],
+            "parsed_path_count": 0
+        }
+    ]
+}
