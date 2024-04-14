@@ -1,0 +1,9 @@
+locations:
+# - build:
+#     directory: ./dagster_deploy
+#   code_source:
+#     module_name: dagster_deploy.definitions
+#   location_name: dagster_deploy
+- location_name: stg_upstream_pipeline
+  code_source:
+    package_name: stg_upstream_pipeline

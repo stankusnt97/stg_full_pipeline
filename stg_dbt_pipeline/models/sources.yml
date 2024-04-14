@@ -1,0 +1,11 @@
+version: 2
+
+sources:
+  - name: warehouse  
+    database: "{{ env_var('DATABRICKS_PROJECT_ENV', 'dev') }}"
+    schema: integrated 
+    tables:
+      - name: stg_nodes
+      - name: physical_therapy_evals
+      - name: user_surveys
+      - name: files
