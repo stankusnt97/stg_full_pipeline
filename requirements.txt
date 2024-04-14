@@ -1,4 +1,0 @@
-dbt==1.7.11
-dbt-databricks==1.7.11
-dagster-dbt==0.22
-protobuf==3.20
