@@ -1,5 +1,5 @@
 default:
-  target: "{{ env_var('DATABRICKS_PROJECT_ENV', 'dev') }}"
+  target: dev
   outputs:
     dev:
       type: databricks 

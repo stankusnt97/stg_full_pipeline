@@ -6,7 +6,7 @@ SELECT
     right_side_fsr_length,
     width,
     file_path,
-    entered_by,
+    
     extraction_time,
     current_timestamp() AS last_updated
 FROM {{ source('warehouse', 'device')}}

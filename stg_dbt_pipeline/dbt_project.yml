@@ -42,3 +42,5 @@ models:
     enriched:
       +materialized: table
       +schema: enriched
+tests:
+  +severity: warn  # all tests

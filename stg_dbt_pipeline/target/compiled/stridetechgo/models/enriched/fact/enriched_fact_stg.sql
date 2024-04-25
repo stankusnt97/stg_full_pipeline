@@ -56,26 +56,25 @@ select
     END AS total_trigger_misfire,
     -- Translate triggers to vibration
     CASE 
-        WHEN left_vibration_trigger == 3 AND activity_flag = 1 THEN 1
+        WHEN left_vibration_trigger == 3  THEN 1
             WHEN left_vibration_trigger IS NOT NULL THEN 0
             ELSE NULL
     END AS left_vibration_flag,
     CASE 
-        WHEN right_vibration_trigger == 3 AND activity_flag = 1 THEN 1
+        WHEN right_vibration_trigger == 3  THEN 1
             WHEN right_vibration_trigger IS NOT NULL THEN 0
             ELSE NULL
     END AS right_vibration_flag,
     CASE 
-        WHEN hip_vibration_trigger == 3 AND activity_flag = 1 THEN 1
+        WHEN hip_vibration_trigger == 3  THEN 1
             WHEN hip_vibration_trigger IS NOT NULL THEN 0
             ELSE NULL
     END AS hip_vibration_flag,
     CASE 
-        WHEN (left_vibration_trigger == 3 OR right_vibration_trigger == 3 OR hip_vibration_trigger == 3) AND activity_flag = 1 THEN 1
+        WHEN (left_vibration_trigger == 3 OR right_vibration_trigger == 3 OR hip_vibration_trigger == 3)  THEN 1
             WHEN COALESCE(left_vibration_flag, right_vibration_trigger, hip_vibration_trigger) IS NOT NULL THEN 0
             ELSE NULL
     END AS vibration_flag,
-    e.activity_flag AS activity_sec,
     left_lbf,
     right_lbf,
     left_adc,
@@ -87,52 +86,55 @@ select
     baseline_right_adc,
     left_adc_change,
     right_adc_change,
-    fsr_length_adjustment,
+    d.fsr_length,
     -- PT metrics
-    start_abc_score,
-    start_tug_score_fastest_attempt,
-    start_tandem_balance_total_time,
-    start_successful_tandem_balance_positions,
-    start_functional_reach,
-    end_abc_score,
-    end_tug_score_fastest_attempt,
-    end_tandem_balance_score_total,
-    end_successful_tandem_balance_positions,
-    end_functional_reach,
+    pt.start_abc_score,
+    pt.start_tug_score_fastest_attempt,
+    pt.start_tandem_balance_total_time,
+    pt.start_successful_tandem_balance_positions,
+    pt.start_functional_reach,
+    pt.end_abc_score,
+    pt.end_tug_score_fastest_attempt,
+    pt.end_tandem_balance_score_total,
+    pt.end_successful_tandem_balance_positions,
+    pt.end_functional_reach,
     -- Survey metrics
-    self_reported_physical_activity_per_week_hrs,
-    satisfied_with_activity,
-    fear_of_falling,
-    fall_history,
-    length_of_time_using_walker,
-    likes_using_walker,
-    received_walker_training,
-    description_of_changes_in_DLa,
-    would_purchase_stg,
-    how_much_would_you_pay,
-    would_recommend_stg,
-    stg_helped_learn_use_walker_better,
+    us.self_reported_physical_activity_per_week_hrs,
+    us.satisfied_with_activity,
+    us.fear_of_falling,
+    us.fall_history,
+    us.length_of_time_using_walker,
+    us.likes_using_walker,
+    us.received_walker_training,
+    us.description_of_changes_in_DLa,
+    us.would_purchase_stg,
+    us.how_much_would_you_pay,
+    us.would_recommend_stg,
+    us.stg_helped_learn_use_walker_better,
+    f.facility_id,
     u.user_id,
-    h.hour_id,
-    t.trial_id,
+    t.time_id,
+    w.week_id,
+    s.session_id,
     d.device_id,
-    e.user_time,
-    e.extraction_time
-from `dev`.`dbt-nstankus_curated`.`curated_fact_stg` e
-join `dev`.`dbt-nstankus_enriched`.`enriched_user` u
-    on u.user = e.user
-join `dev`.`dbt-nstankus_enriched`.`enriched_hour` h
-    on h.week = e.week
-    and h.hour = date_trunc('hour', e.user_time)
-join `dev`.`dbt-nstankus_enriched`.`enriched_trial` t
-    on t.trial_type = e.trial_type
-join `dev`.`dbt-nstankus_enriched`.`enriched_device` d 
-    on d.device = e.device
-left join `dev`.`dbt-nstankus_curated`.`curated_fact_physical_therapy_evals` pt
+    e.extraction_time,
+    current_timestamp() AS last_updated
+from `prod`.`curated`.`curated_fact_stg` e
+join `prod`.`curated`.`curated_user` u
+    on u.user_id = e.user_id
+join `prod`.`curated`.`curated_time` t
+    on t.time_id = e.time_id
+join `prod`.`curated`.`curated_week` w
+    on w.week_id = e.week_id
+join `prod`.`curated`.`curated_session` s
+    on s.session_id = e.session_id
+join `prod`.`curated`.`curated_device` d 
+    on d.device_id = e.device_id
+join `prod`.`curated`.`curated_facility` f
+    on f.facility_id = e.facility_id
+left join `prod`.`curated`.`curated_fact_physical_therapy_evals` pt
     on pt.user_id = u.user_id
     and pt.device_id = d.device_id
-left join `dev`.`dbt-nstankus_curated`.`curated_fact_user_surveys` us
+left join `prod`.`curated`.`curated_fact_user_surveys` us
     on us.user_id = u.user_id
     and us.device_id = d.device_id
--- Flag for inactivity
-where e.activity_flag > 0

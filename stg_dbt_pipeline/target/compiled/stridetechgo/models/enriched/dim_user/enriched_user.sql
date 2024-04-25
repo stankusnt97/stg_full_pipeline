@@ -1,24 +1,26 @@
-SELECT DISTINCT 
-    COALESCE(f.user, pt.user, s.user) AS user,
-    s.age,
-    s.gender,
-    s.height_in,
-    s.weight_lbs,
-    s.dob,
-    s.walker_trainer,
-    s.walker_purchased_from,
-    s.walker_manufacturer,
-    md5(COALESCE(f.user, pt.user, s.user)) AS user_id,
-    CAST(
-        RIGHT(
-            COALESCE(f.user, pt.user, s.user),
-            LENGTH(COALESCE(f.user, pt.user, s.user)) - 1
-        ) AS INTEGER)
-     AS user_no,
-    current_timestamp() AS lastupdated
-FROM `dev`.`dbt-nstankus_curated`.`curated_fact_stg` f
-LEFT JOIN `dev`.`integrated`.`physical_therapy_evals` pt
-    ON pt.user = f.user
-LEFT JOIN `dev`.`integrated`.`user_surveys` s
-    ON s.user = f.user
-WHERE COALESCE(f.user, pt.user, s.user) IS NOT NULL
+SELECT DISTINCT
+    u.user_id,
+    u.user_alias,
+    RIGHT(u.user_alias, LENGTH(u.user_alias) - 1) AS user_no,
+    u.physical_therapist_name,
+    u.walker_purchased_from,
+    u.walker_manufacturer,
+    u.self_reported_activity_level,
+    u.satisfied_with_activity,
+    u.fear_of_falling,
+    u.fall_history,
+    u.length_of_time_using_walker,
+    u.length_of_time_using_walker_units,
+    u.likes_using_walker,
+    u.received_walker_training,
+    u.description_of_changes,
+    u.would_purchase,
+    u.would_pay_how_much,
+    u.would_recommend,
+    u.improved_walker_use,
+    u.file_path,
+    u.extraction_time,
+    current_timestamp() AS last_updated
+FROM `prod`.`curated`.`curated_user` u
+JOIN `prod`.`curated`.`curated_fact_stg` stg
+    ON u.user_id = stg.user_id

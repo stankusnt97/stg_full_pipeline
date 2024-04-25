@@ -21,7 +21,6 @@ SELECT
             WHEN COALESCE(left_lbf, right_lbf, hip_distance) IS NOT NULL THEN 0
             ELSE NULL
     END AS total_misuse_flag,
-    activity_flag,
     -- Imposing range constraints on lbf
     CASE 
         WHEN left_lbf < 0 THEN 0
@@ -46,13 +45,13 @@ SELECT
     left_adc_change,
     right_adc_change,
     accelerometer_motion_flag,
+    facility_id,
     device_id,
+    time_id,
     week_id,
     user_id,
     session_id,
-    extraction_time,
     file_path,
-    entered_by,
     extraction_time,
     current_timestamp() AS last_updated
 FROM {{ source('warehouse', 'fact_stg_nodes') }} 

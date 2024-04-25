@@ -1,35 +1,26 @@
 SELECT 
-    -- Timestamp extrapolation
-    CAST(from_unixtime( -- Convert from unixtime back to UTC
-        (unix_timestamp(device_time) -- Convert timestamp to sec from ms
-        - MIN(unix_timestamp(device_time)) OVER (PARTITION BY user, week)) -- Subtract by min timestamp over user/week
-        + start_time)  -- Add start time for user/week 
-    AS timestamp) AS user_time, 
-    CAST(unix_timestamp(device_time) -- Convert timestamp to sec from ms
-        - MIN(unix_timestamp(device_time)) OVER (PARTITION BY user, week) -- Subtract by min timestamp over user/week
-    AS timestamp) AS session_time,
+    device_time,
     -- Metrics definition
     CASE 
-        WHEN left_lbf > force_threshold AND activity_flag = 1 THEN 1
+        WHEN left_lbf > force_threshold THEN 1
             WHEN left_lbf IS NOT NULL THEN 0
             ELSE NULL
     END AS left_misuse_flag,
     CASE 
-        WHEN right_lbf > force_threshold AND activity_flag = 1 THEN 1
+        WHEN right_lbf > force_threshold THEN 1
             WHEN right_lbf IS NOT NULL THEN 0
             ELSE NULL
     END AS right_misuse_flag,
     CASE 
-        WHEN hip_distance > hip_distance_threshold AND activity_flag = 1 THEN 1
+        WHEN hip_distance > hip_distance_threshold THEN 1
             WHEN hip_distance IS NOT NULL THEN 0
             ELSE NULL
     END AS hip_misuse_flag,
     CASE 
-        WHEN (left_lbf > force_threshold OR right_lbf > force_threshold OR hip_distance > hip_distance_threshold) AND activity_flag = 1 THEN 1
+        WHEN (left_lbf > force_threshold OR right_lbf > force_threshold OR hip_distance > hip_distance_threshold) THEN 1
             WHEN COALESCE(left_lbf, right_lbf, hip_distance) IS NOT NULL THEN 0
             ELSE NULL
     END AS total_misuse_flag,
-    activity_flag,
     -- Imposing range constraints on lbf
     CASE 
         WHEN left_lbf < 0 THEN 0
@@ -54,13 +45,13 @@ SELECT
     left_adc_change,
     right_adc_change,
     accelerometer_motion_flag,
+    facility_id,
+    device_id,
+    time_id,
+    week_id,
+    user_id,
+    session_id,
     file_path,
-    device,
-    week,
-    file,
-    user,
-    fsr_length_adjustment,
-    trial_type,
-    run_id,
-    extraction_time as extraction_time
-FROM `dev`.`integrated`.`stg_nodes` base
+    extraction_time,
+    current_timestamp() AS last_updated
+FROM `dev`.`processed`.`fact_stg_nodes`

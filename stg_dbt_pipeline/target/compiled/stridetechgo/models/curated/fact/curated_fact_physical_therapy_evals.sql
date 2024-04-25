@@ -14,11 +14,11 @@ SELECT
     d.device_id,
     u.user_id,
     fac.facility_id,
-    current_timestamp() AS lastupdated
-from `dev`.`integrated`.`physical_therapy_evals` pt
-left join `dev`.`dbt-nstankus_enriched`.`enriched_device` d
-    on d.device = pt.device
-left join `dev`.`dbt-nstankus_enriched`.`enriched_user` u
-    on u.user = pt.user
-left join `dev`.`dbt-nstankus_enriched`.`enriched_facility` fac
-    on fac.facility = pt.facility
+    current_timestamp() AS last_updated
+from `prod`.`integrated`.`physical_therapy_evals` pt
+left join `prod`.`curated`.`curated_device` d
+    on d.device_name = pt.device_name
+left join `prod`.`curated`.`curated_user` u
+    on u.user_alias = pt.user_alias
+left join `prod`.`curated`.`curated_facility` fac
+    on fac.facility_name = pt.facility_name

@@ -14,11 +14,11 @@ SELECT
     d.device_id,
     u.user_id,
     fac.facility_id,
-    current_timestamp() AS lastupdated
-from {{ source('warehouse', 'physical_therapy_evals') }} pt
-left join {{ ref('enriched_device')}} d
-    on d.device = pt.device
-left join {{ ref('enriched_user')}} u
-    on u.user = pt.user
-left join {{ ref('enriched_facility')}} fac
-    on fac.facility = pt.facility
+    current_timestamp() AS last_updated
+from {{ source('integrated_warehouse', 'physical_therapy_evals') }} pt
+left join {{ ref('curated_device')}} d
+    on d.device_name = pt.device_name
+left join {{ ref('curated_user')}} u
+    on u.user_alias = pt.user_alias
+left join {{ ref('curated_facility')}} fac
+    on fac.facility_name = pt.facility_name

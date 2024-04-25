@@ -18,7 +18,6 @@ SELECT
     would_recommend,
     improved_walker_use,
     file_path,
-    entered_by,
     extraction_time,
     current_timestamp() AS last_updated
 FROM {{ source('warehouse', 'user') }} f

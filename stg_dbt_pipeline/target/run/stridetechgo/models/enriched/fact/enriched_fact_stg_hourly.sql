@@ -1,7 +1,7 @@
 
   
     
-        create or replace table `dev`.`dbt-nstankus_enriched`.`enriched_fact_stg_hourly`
+        create or replace table `prod`.`enriched`.`enriched_fact_stg_hourly`
       
       
     using delta
@@ -15,7 +15,6 @@
       as
       select
     count(1) as total_captured_sec,
-    CAST(SUM(activity_sec) AS NUMERIC) AS total_activity_sec,
     TRY_CAST(AVG(left_lbf) AS NUMERIC) AS avg_left,
     MAX(left_lbf) AS max_left,
     MIN(left_lbf) AS min_left,
@@ -74,11 +73,14 @@
     MAX(how_much_would_you_pay) AS how_much_would_you_pay,
     MAX(would_recommend_stg) AS would_recommend_stg,
     MAX(stg_helped_learn_use_walker_better) AS stg_helped_learn_use_walker_better,
+    facility_id,
     user_id,
     device_id,
-    hour_id,
-    trial_id,
-    MAX(extraction_time) AS lastupdated
-from `dev`.`dbt-nstankus_enriched`.`enriched_fact_stg`
-group by hour_id, trial_id, user_id, device_id
+    time_id,
+    week_id,
+    session_id,
+    MAX(extraction_time) AS extraction_time,
+    current_timestamp() AS last_updated
+from `prod`.`enriched`.`enriched_fact_stg`
+group by facility_id, time_id, week_id, session_id, user_id, device_id
   
