@@ -1,11 +1,22 @@
 version: 2
 
 sources:
-  - name: warehouse  
-    database: "{{ env_var('DATABRICKS_PROJECT_ENV', 'dev') }}"
+  - name: warehouse
+    database: dev
+    schema: processed 
+    tables:
+      - name: stg_eaton_combined
+      - name: fact_stg_nodes
+      - name: files
+      - name: device
+      - name: session
+      - name: facility
+      - name: time
+      - name: user
+      - name: week
+  - name: integrated_warehouse
     schema: integrated 
     tables:
       - name: stg_nodes
       - name: physical_therapy_evals
       - name: user_surveys
-      - name: files

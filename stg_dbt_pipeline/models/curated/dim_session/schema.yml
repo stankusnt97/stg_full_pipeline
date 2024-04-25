@@ -1,0 +1,13 @@
+version: 2
+
+
+models:
+  - name: curated_session
+    description: This table has all information about a session.
+
+    columns:
+      - name: session_id
+        description: This is a unique identifier for a trial/session.
+        tests:
+          - unique
+          - not_null
