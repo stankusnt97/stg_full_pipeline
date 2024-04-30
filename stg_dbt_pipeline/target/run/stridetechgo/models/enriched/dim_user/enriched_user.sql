@@ -1,7 +1,7 @@
 
   
     
-        create or replace table `prod`.`enriched`.`enriched_user`
+        create or replace table `dev`.`dbt-nstankus_enriched`.`enriched_user`
       
       
     using delta
@@ -36,7 +36,7 @@
     u.file_path,
     u.extraction_time,
     current_timestamp() AS last_updated
-FROM `prod`.`curated`.`curated_user` u
-JOIN `prod`.`curated`.`curated_fact_stg` stg
+FROM `dev`.`dbt-nstankus_curated`.`curated_user` u
+JOIN `dev`.`dbt-nstankus_curated`.`curated_fact_stg` stg
     ON u.user_id = stg.user_id
   

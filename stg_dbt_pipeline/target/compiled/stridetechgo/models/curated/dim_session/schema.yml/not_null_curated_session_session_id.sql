@@ -5,7 +5,7 @@
 
 
 select session_id
-from `prod`.`curated`.`curated_session`
+from `dev`.`dbt-nstankus_curated`.`curated_session`
 where session_id is null
 
 

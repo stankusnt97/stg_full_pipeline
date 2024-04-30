@@ -9,4 +9,4 @@ SELECT
     
     extraction_time,
     current_timestamp() AS last_updated
-FROM `dev`.`processed`.`session`
+FROM `prod`.`processed`.`session`

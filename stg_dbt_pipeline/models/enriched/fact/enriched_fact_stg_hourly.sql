@@ -1,6 +1,7 @@
 
 select
     count(1) as total_captured_sec,
+    SUM(activity_flag) AS total_activity_sec,
     TRY_CAST(AVG(left_lbf) AS NUMERIC) AS avg_left,
     MAX(left_lbf) AS max_left,
     MIN(left_lbf) AS min_left,

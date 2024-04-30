@@ -1,7 +1,7 @@
 
   
     
-        create or replace table `prod`.`curated`.`curated_device`
+        create or replace table `dev`.`dbt-nstankus_curated`.`curated_device`
       
       
     using delta
@@ -24,5 +24,5 @@
     
     extraction_time,
     current_timestamp() AS last_updated
-FROM `dev`.`processed`.`device`
+FROM `prod`.`processed`.`device`
   

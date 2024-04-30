@@ -5,7 +5,7 @@
 
 
 select device_id
-from `prod`.`curated`.`curated_device`
+from `dev`.`dbt-nstankus_curated`.`curated_device`
 where device_id is null
 
 

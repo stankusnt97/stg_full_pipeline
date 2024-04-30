@@ -10,7 +10,7 @@ select
 
 
 select time_id
-from `prod`.`curated`.`curated_time`
+from `dev`.`dbt-nstankus_curated`.`curated_time`
 where time_id is null
 
 

@@ -75,6 +75,7 @@ select
             WHEN COALESCE(left_vibration_flag, right_vibration_trigger, hip_vibration_trigger) IS NOT NULL THEN 0
             ELSE NULL
     END AS vibration_flag,
+    activity_flag,
     left_lbf,
     right_lbf,
     left_adc,
@@ -118,23 +119,25 @@ select
     s.session_id,
     d.device_id,
     e.extraction_time,
+    e.device_time,
     current_timestamp() AS last_updated
-from `prod`.`curated`.`curated_fact_stg` e
-join `prod`.`curated`.`curated_user` u
+from `dev`.`dbt-nstankus_curated`.`curated_fact_stg` e
+join `dev`.`dbt-nstankus_curated`.`curated_user` u
     on u.user_id = e.user_id
-join `prod`.`curated`.`curated_time` t
+join `dev`.`dbt-nstankus_curated`.`curated_time` t
     on t.time_id = e.time_id
-join `prod`.`curated`.`curated_week` w
+join `dev`.`dbt-nstankus_curated`.`curated_week` w
     on w.week_id = e.week_id
-join `prod`.`curated`.`curated_session` s
+join `dev`.`dbt-nstankus_curated`.`curated_session` s
     on s.session_id = e.session_id
-join `prod`.`curated`.`curated_device` d 
+join `dev`.`dbt-nstankus_curated`.`curated_device` d 
     on d.device_id = e.device_id
-join `prod`.`curated`.`curated_facility` f
+join `dev`.`dbt-nstankus_curated`.`curated_facility` f
     on f.facility_id = e.facility_id
-left join `prod`.`curated`.`curated_fact_physical_therapy_evals` pt
+left join `dev`.`dbt-nstankus_curated`.`curated_fact_physical_therapy_evals` pt
     on pt.user_id = u.user_id
     and pt.device_id = d.device_id
-left join `prod`.`curated`.`curated_fact_user_surveys` us
+left join `dev`.`dbt-nstankus_curated`.`curated_fact_user_surveys` us
     on us.user_id = u.user_id
     and us.device_id = d.device_id
+where activity_flag = 1

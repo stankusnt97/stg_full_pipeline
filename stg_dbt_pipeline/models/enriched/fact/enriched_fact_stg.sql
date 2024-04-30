@@ -78,6 +78,7 @@ select
             WHEN COALESCE(left_vibration_flag, right_vibration_trigger, hip_vibration_trigger) IS NOT NULL THEN 0
             ELSE NULL
     END AS vibration_flag,
+    activity_flag,
     left_lbf,
     right_lbf,
     left_adc,
@@ -121,6 +122,7 @@ select
     s.session_id,
     d.device_id,
     e.extraction_time,
+    e.device_time,
     current_timestamp() AS last_updated
 from {{ ref('curated_fact_stg')}} e
 join {{ ref('curated_user')}} u
@@ -141,3 +143,4 @@ left join {{ ref('curated_fact_physical_therapy_evals')}} pt
 left join {{ ref('curated_fact_user_surveys')}} us
     on us.user_id = u.user_id
     and us.device_id = d.device_id
+where activity_flag = 1

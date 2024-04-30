@@ -1,7 +1,7 @@
 
   
     
-        create or replace table `prod`.`curated`.`curated_user`
+        create or replace table `dev`.`dbt-nstankus_curated`.`curated_user`
       
       
     using delta
@@ -35,5 +35,5 @@
     file_path,
     extraction_time,
     current_timestamp() AS last_updated
-FROM `dev`.`processed`.`user` f
+FROM `prod`.`processed`.`user` f
   

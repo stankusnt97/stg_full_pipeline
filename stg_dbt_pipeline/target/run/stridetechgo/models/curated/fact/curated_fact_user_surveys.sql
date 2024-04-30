@@ -1,7 +1,7 @@
 
   
     
-        create or replace table `prod`.`curated`.`curated_fact_user_surveys`
+        create or replace table `dev`.`dbt-nstankus_curated`.`curated_fact_user_surveys`
       
       
     using delta
@@ -30,11 +30,11 @@
     u.user_id,
     fac.facility_id,
     current_timestamp() AS last_updated
-FROM `prod`.`integrated`.`user_surveys` us
-left join `prod`.`curated`.`curated_device` d
+FROM `dev`.`integrated`.`user_surveys` us
+left join `dev`.`dbt-nstankus_curated`.`curated_device` d
     on d.device_name = us.device_name
-left join `prod`.`curated`.`curated_user` u
+left join `dev`.`dbt-nstankus_curated`.`curated_user` u
     on u.user_alias = us.user_alias
-left join `prod`.`curated`.`curated_facility` fac
+left join `dev`.`dbt-nstankus_curated`.`curated_facility` fac
     on fac.facility_name = us.facility_name
   

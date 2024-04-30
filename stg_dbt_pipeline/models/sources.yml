@@ -2,7 +2,7 @@ version: 2
 
 sources:
   - name: warehouse
-    database: dev
+    database: prod
     schema: processed 
     tables:
       - name: stg_eaton_combined

@@ -1,7 +1,7 @@
 
   
     
-        create or replace table `prod`.`curated`.`curated_fact_stg`
+        create or replace table `dev`.`dbt-nstankus_curated`.`curated_fact_stg`
       
       
     using delta
@@ -17,22 +17,22 @@
     device_time,
     -- Metrics definition
     CASE 
-        WHEN left_lbf > force_threshold THEN 1
+        WHEN left_lbf > force_threshold AND activity_flag = 1 THEN 1
             WHEN left_lbf IS NOT NULL THEN 0
             ELSE NULL
     END AS left_misuse_flag,
     CASE 
-        WHEN right_lbf > force_threshold THEN 1
+        WHEN right_lbf > force_threshold AND activity_flag = 1 THEN 1
             WHEN right_lbf IS NOT NULL THEN 0
             ELSE NULL
     END AS right_misuse_flag,
     CASE 
-        WHEN hip_distance > hip_distance_threshold THEN 1
+        WHEN hip_distance > hip_distance_threshold AND activity_flag = 1 THEN 1
             WHEN hip_distance IS NOT NULL THEN 0
             ELSE NULL
     END AS hip_misuse_flag,
     CASE 
-        WHEN (left_lbf > force_threshold OR right_lbf > force_threshold OR hip_distance > hip_distance_threshold) THEN 1
+        WHEN (left_lbf > force_threshold OR right_lbf > force_threshold OR hip_distance > hip_distance_threshold) AND activity_flag = 1 THEN 1
             WHEN COALESCE(left_lbf, right_lbf, hip_distance) IS NOT NULL THEN 0
             ELSE NULL
     END AS total_misuse_flag,
@@ -47,6 +47,7 @@
         WHEN right_lbf > 100 THEN 100
         ELSE right_lbf
     END AS right_lbf,
+    activity_flag,
     left_adc,
     right_adc,
     hip_distance,
@@ -69,5 +70,5 @@
     file_path,
     extraction_time,
     current_timestamp() AS last_updated
-FROM `dev`.`processed`.`fact_stg_nodes`
+FROM `prod`.`processed`.`fact_stg_nodes`
   

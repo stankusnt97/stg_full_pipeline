@@ -20,4 +20,4 @@ SELECT
     file_path,
     extraction_time,
     current_timestamp() AS last_updated
-FROM `dev`.`processed`.`user` f
+FROM `prod`.`processed`.`user` f

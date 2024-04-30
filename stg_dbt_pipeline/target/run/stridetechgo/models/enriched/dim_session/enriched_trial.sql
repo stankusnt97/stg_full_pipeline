@@ -1,7 +1,7 @@
 
   
     
-        create or replace table `prod`.`enriched`.`enriched_trial`
+        create or replace table `dev`.`dbt-nstankus_enriched`.`enriched_trial`
       
       
     using delta
@@ -23,7 +23,7 @@
     ssh.file_path,
     ssh.extraction_time,
     current_timestamp() AS last_updated
-FROM `prod`.`curated`.`curated_session` ssh
-JOIN `prod`.`curated`.`curated_fact_stg` stg
+FROM `dev`.`dbt-nstankus_curated`.`curated_session` ssh
+JOIN `dev`.`dbt-nstankus_curated`.`curated_fact_stg` stg
     ON ssh.session_id = stg.session_id
   

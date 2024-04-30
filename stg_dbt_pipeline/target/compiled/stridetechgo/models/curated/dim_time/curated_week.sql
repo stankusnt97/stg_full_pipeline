@@ -5,4 +5,4 @@ week_no,
 file_path,
 extraction_time,
 current_timestamp() AS last_updated
-FROM `dev`.`processed`.`week`
+FROM `prod`.`processed`.`week`

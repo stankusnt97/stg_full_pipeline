@@ -1,5 +1,6 @@
 select
     count(1) as total_captured_sec,
+    SUM(activity_flag) AS total_activity_sec,
     TRY_CAST(AVG(left_lbf) AS NUMERIC) AS avg_left,
     MAX(left_lbf) AS max_left,
     MIN(left_lbf) AS min_left,
@@ -66,5 +67,5 @@ select
     session_id,
     MAX(extraction_time) AS extraction_time,
     current_timestamp() AS last_updated
-from `prod`.`enriched`.`enriched_fact_stg`
+from `dev`.`dbt-nstankus_enriched`.`enriched_fact_stg`
 group by facility_id, time_id, week_id, session_id, user_id, device_id

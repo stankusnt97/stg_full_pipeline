@@ -1,7 +1,7 @@
 
   
     
-        create or replace table `prod`.`curated`.`curated_week`
+        create or replace table `dev`.`dbt-nstankus_curated`.`curated_week`
       
       
     using delta
@@ -20,5 +20,5 @@ week_no,
 file_path,
 extraction_time,
 current_timestamp() AS last_updated
-FROM `dev`.`processed`.`week`
+FROM `prod`.`processed`.`week`
   

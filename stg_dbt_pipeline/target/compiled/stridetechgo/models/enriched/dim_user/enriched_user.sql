@@ -21,6 +21,6 @@ SELECT DISTINCT
     u.file_path,
     u.extraction_time,
     current_timestamp() AS last_updated
-FROM `prod`.`curated`.`curated_user` u
-JOIN `prod`.`curated`.`curated_fact_stg` stg
+FROM `dev`.`dbt-nstankus_curated`.`curated_user` u
+JOIN `dev`.`dbt-nstankus_curated`.`curated_fact_stg` stg
     ON u.user_id = stg.user_id
