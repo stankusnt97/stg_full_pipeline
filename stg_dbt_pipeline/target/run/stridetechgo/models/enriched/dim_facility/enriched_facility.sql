@@ -1,7 +1,7 @@
 
   
     
-        create or replace table `prod`.`enriched`.`enriched_facility`
+        create or replace table `dev`.`dbt-nstankus_enriched`.`enriched_facility`
       
       
     using delta
@@ -20,9 +20,9 @@
     f.file_path,
     f.extraction_time,
     current_timestamp() AS last_updated
-FROM `prod`.`curated`.`curated_facility` f
-JOIN `prod`.`curated`.`curated_fact_stg` stg
+FROM `dev`.`dbt-nstankus_curated`.`curated_facility` f
+JOIN `dev`.`dbt-nstankus_curated`.`curated_fact_stg` stg
     ON stg.facility_id = f.facility_id
-LEFT JOIN `prod`.`integrated`.`physical_therapy_evals` pte
+LEFT JOIN `dev`.`integrated`.`physical_therapy_evals` pte
     ON f.facility_name = pte.facility_name
   

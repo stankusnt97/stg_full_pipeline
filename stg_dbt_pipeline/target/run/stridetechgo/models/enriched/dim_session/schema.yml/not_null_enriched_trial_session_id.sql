@@ -10,7 +10,7 @@ select
 
 
 select session_id
-from `prod`.`enriched`.`enriched_trial`
+from `dev`.`dbt-nstankus_enriched`.`enriched_trial`
 where session_id is null
 
 

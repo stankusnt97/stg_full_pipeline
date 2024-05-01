@@ -9,7 +9,7 @@ from typing import Union
 from dagster import AssetExecutionContext, Definitions
 from dagster_embedded_elt.dlt import DagsterDltResource, dlt_assets
 from dlt import pipeline
-from dlt_sources.google_sheets import google_spreadsheet
+from dlt_sources.google_sheets import *
 
 # Extra dependencies needed for retrieving environment variables
 from dotenv import load_dotenv

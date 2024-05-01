@@ -5,5 +5,5 @@ log_level="WARNING"
 dlthub_telemetry = true
 
 [sources.google_sheets]
-spreadsheet_url_or_id = "https://docs.google.com/spreadsheets/d/19TOJJeAPXJN-WyepIF93naUPXTQw6PjlkHW627UXR1g/edit#gid=1004761991"
-range_names = ["Device"] 
+spreadsheet_url_or_id = "https://docs.google.com/spreadsheets/d/19TOJJeAPXJN-WyepIF93naUPXTQw6PjlkHW627UXR1g/edit?usp=sharing"
+range_names = ["Device"]
