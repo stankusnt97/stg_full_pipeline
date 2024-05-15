@@ -7,6 +7,7 @@ sources:
     tables:
       - name: stg_eaton_combined
       - name: fact_stg_nodes
+      - name: fact_user_sessions
       - name: files
       - name: device
       - name: session

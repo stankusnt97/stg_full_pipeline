@@ -91,7 +91,6 @@
             ELSE NULL
     END AS vibration_flag,
     activity_flag,
-    session_length,
     left_lbf,
     right_lbf,
     left_adc,
@@ -104,6 +103,11 @@
     left_adc_change,
     right_adc_change,
     d.fsr_length,
+    -- Session metrics
+    uses.user_session_no,
+    uses.user_session_length,
+    uses.user_session_start_time,
+    uses.user_session_end_time,
     -- PT metrics
     pt.start_abc_score,
     pt.start_tug_score_fastest_attempt,
@@ -156,5 +160,8 @@ left join `dev`.`dbt-nstankus_curated`.`curated_fact_physical_therapy_evals` pt
 left join `dev`.`dbt-nstankus_curated`.`curated_fact_user_surveys` us
     on us.user_id = u.user_id
     and us.device_id = d.device_id
+left join `dev`.`dbt-nstankus_curated`.`curated_fact_user_sessions` uses
+    on uses.user_id = e.user_id
+    and e.device_time between uses.user_session_start_time and uses.user_session_end_time
 where activity_flag = 1
   
