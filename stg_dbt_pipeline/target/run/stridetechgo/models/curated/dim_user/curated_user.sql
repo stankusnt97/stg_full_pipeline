@@ -35,5 +35,5 @@
     file_path,
     extraction_time,
     current_timestamp() AS last_updated
-FROM `prod`.`processed`.`user` f
+FROM `dev`.`processed`.`user` f
   

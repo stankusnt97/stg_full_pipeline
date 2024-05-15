@@ -6,4 +6,4 @@ file_path,
 
 extraction_time,
 current_timestamp() AS last_updated
-FROM `prod`.`processed`.`time`
+FROM `dev`.`processed`.`time`

@@ -33,6 +33,7 @@ SELECT
         ELSE right_lbf
     END AS right_lbf,
     activity_flag,
+    session_length,
     left_adc,
     right_adc,
     hip_distance,

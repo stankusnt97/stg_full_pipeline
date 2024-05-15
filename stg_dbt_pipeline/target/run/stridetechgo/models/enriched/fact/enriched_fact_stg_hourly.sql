@@ -13,9 +13,23 @@
       
       
       as
-      select
+      with session AS (
+    select
+        user_id,
+        week_id,
+        activity_flag,
+        max(session_length) as session_length
+    from `dev`.`dbt-nstankus_enriched`.`enriched_fact_stg`
+    group by user_id, week_id, activity_flag
+    having session_length > 0
+)
+
+
+select
     count(1) as total_captured_sec,
     SUM(activity_flag) AS total_activity_sec,
+    SUM(case when s.session_length = 1 then 1 else 0 end) AS number_of_sessions,
+    AVG(s.session_length) AS avg_session_length,
     TRY_CAST(AVG(left_lbf) AS NUMERIC) AS avg_left,
     MAX(left_lbf) AS max_left,
     MIN(left_lbf) AS min_left,
@@ -75,13 +89,17 @@
     MAX(would_recommend_stg) AS would_recommend_stg,
     MAX(stg_helped_learn_use_walker_better) AS stg_helped_learn_use_walker_better,
     facility_id,
-    user_id,
+    stg.user_id,
     device_id,
-    time_id,
-    week_id,
+    stg.time_id,
+    stg.week_id,
     session_id,
     MAX(extraction_time) AS extraction_time,
     current_timestamp() AS last_updated
-from `dev`.`dbt-nstankus_enriched`.`enriched_fact_stg`
-group by facility_id, time_id, week_id, session_id, user_id, device_id
+from `dev`.`dbt-nstankus_enriched`.`enriched_fact_stg` stg
+left join session s on 
+    s.user_id = stg.user_id and
+    s.week_id = stg.week_id and
+    s.time_id = stg.time_id
+group by facility_id, stg.time_id, stg.week_id, session_id, stg.user_id, device_id
   

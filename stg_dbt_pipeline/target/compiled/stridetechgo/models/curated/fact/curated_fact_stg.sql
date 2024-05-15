@@ -33,6 +33,7 @@ SELECT
         ELSE right_lbf
     END AS right_lbf,
     activity_flag,
+    session_length,
     left_adc,
     right_adc,
     hip_distance,
@@ -55,4 +56,4 @@ SELECT
     file_path,
     extraction_time,
     current_timestamp() AS last_updated
-FROM `prod`.`processed`.`fact_stg_nodes`
+FROM `dev`.`processed`.`fact_stg_nodes`

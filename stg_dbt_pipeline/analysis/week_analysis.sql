@@ -73,10 +73,13 @@ GROUP BY week_num
 ORDER BY week_num ASC
 
 
-SELECT user, week, COUNT(*), avg(left_lbf)
-FROM {{ref('curated_fact_stg')}}
-where activity_flag > 0
-group by user,week
+SELECT user_alias, week_name, COUNT(*)
+FROM {{ref('curated_fact_stg')}} stg
+JOIN {{ref('curated_user')}} u
+    ON u.user_id = stg.user_id
+JOIN {{ref('curated_week')}} w
+    ON w.week_id = stg.week_id
+GROUP BY user_alias, week_name
 
     force_threshold,
     hip_distance_threshold,
@@ -86,3 +89,7 @@ group by user,week
 SELECT *
 FROM {{ref('enriched_fact_stg')}}
 where activity_flag < 0
+
+
+SELECT *
+FROM {{ref('enriched_fact_stg_hourly')}}

@@ -91,6 +91,7 @@
             ELSE NULL
     END AS vibration_flag,
     activity_flag,
+    session_length,
     left_lbf,
     right_lbf,
     left_adc,

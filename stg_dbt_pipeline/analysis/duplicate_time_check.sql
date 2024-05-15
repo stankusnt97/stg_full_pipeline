@@ -15,7 +15,6 @@
     JOIN {{ source('warehouse', 'device')}} d
         ON base.device_id = d.device_id
     --WHERE base.User = 'U1' AND base.week = 'Week 1'
-    WHERE u.user_alias = 'U859320'
     GROUP BY 
         w.week_name,
         u.user_alias,

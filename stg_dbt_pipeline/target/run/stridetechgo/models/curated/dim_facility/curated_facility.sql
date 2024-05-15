@@ -21,5 +21,5 @@
     
     extraction_time,
     current_timestamp() AS last_updated
-FROM `prod`.`processed`.`facility`
+FROM `dev`.`processed`.`facility`
   

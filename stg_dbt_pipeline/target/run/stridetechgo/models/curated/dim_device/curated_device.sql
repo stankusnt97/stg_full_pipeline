@@ -24,5 +24,5 @@
     
     extraction_time,
     current_timestamp() AS last_updated
-FROM `prod`.`processed`.`device`
+FROM `dev`.`processed`.`device`
   
