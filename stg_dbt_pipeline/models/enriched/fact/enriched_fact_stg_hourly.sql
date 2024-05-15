@@ -3,18 +3,19 @@ with session AS (
     select
         user_id,
         week_id,
+        time_id,
         activity_flag,
         max(session_length) as session_length
     from {{ ref('enriched_fact_stg')}}
-    group by user_id, week_id, activity_flag
+    group by user_id, week_id, time_id, activity_flag
     having session_length > 0
 )
 
 
 select
     count(1) as total_captured_sec,
-    SUM(activity_flag) AS total_activity_sec,
-    SUM(case when s.session_length = 1 then 1 else 0 end) AS number_of_sessions,
+    SUM(stg.activity_flag) AS total_activity_sec,
+    SUM(case when stg.session_length = 1 then 1 else 0 end) AS number_of_sessions,
     AVG(s.session_length) AS avg_session_length,
     TRY_CAST(AVG(left_lbf) AS NUMERIC) AS avg_left,
     MAX(left_lbf) AS max_left,
